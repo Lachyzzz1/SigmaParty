@@ -80,29 +80,21 @@ public class WebScraper {
        
          // Define the regex pattern to extract the stock price
         String regex = "<h3 class=\"InstrumentPriceAmount cMIYIY p-price\">\\$(.*?)</h3>";
-        String changePattern = "<span class=\"PriceChangeAmount emeBBK p-price-change kGHgXH\">(.*?)</span>";
 
                 // Use Pattern and Matcher to find the stock price
         Pattern pattern = Pattern.compile(regex);
-        Pattern changeRegex = Pattern.compile(changePattern);
 
         Matcher matcher = pattern.matcher(this.htmlContents);
-        Matcher changeMatcher = changeRegex.matcher(this.htmlContents);
         BigDecimal result = null;
                 
                 // Check if the pattern is found and extract the price
         if (matcher.find()) {
             String stockPrice = matcher.group(1).substring(0);
             result = new BigDecimal(stockPrice);
-            System.out.println("Close Stock Price: $" + stockPrice);
         } else {
             System.out.println("Stock price not found.");
         }
-        if (changeMatcher.find()) {
-            System.out.println("Price Change: " + changeMatcher.group(1));
-        } else {
-            System.out.println("Price change not found");
-        }
+        
 
         return result;
     }
@@ -233,10 +225,11 @@ public class WebScraper {
         if (matcher.find()) {
             String marketCap = matcher.group(1).replace("$", "").replace(",", "");
             result = Integer.parseInt(marketCap);
+            return result * 1000;
         } else {
             System.out.println("Market Cap not found.");
         }
-        return result * 1000;
+        return null;
    }
 }
 
