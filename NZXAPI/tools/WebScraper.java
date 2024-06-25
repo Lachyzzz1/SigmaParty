@@ -13,12 +13,20 @@ public class WebScraper {
 
     private String url;
     private String htmlContents;
-
+    
+    /**
+     * Constructor for the WebScraper class
+     * @param url URL to scrape
+     */
     public WebScraper(String url) {
         this.url = url;
         this.htmlContents = getHTMLContents(url); 
     }
-
+    /**
+     * Get the HTML contents of the URL
+     * @param url URL to get the HTML contents from
+     * @return HTML contents
+     */
     public static String getHTMLContents(String url){
         String result = null;
         try {
@@ -56,44 +64,47 @@ public class WebScraper {
     }
     return result;
     }
-
+    /**
+     * Get the HTML contents of the URL for the WebScraper object
+     * @return HTML contents
+     */
     public String getHTMLContents(){
         return this.htmlContents;
     }
-
+    /**
+     * Get the current price of the stock
+     * Using the regex pattern to extract the stock price from the HTML contents
+     * @return current price
+     */
     public BigDecimal getStockPrice() {
        
          // Define the regex pattern to extract the stock price
         String regex = "<h3 class=\"InstrumentPriceAmount cMIYIY p-price\">\\$(.*?)</h3>";
-        String changePattern = "<span class=\"PriceChangeAmount emeBBK p-price-change kGHgXH\">(.*?)</span>";
 
                 // Use Pattern and Matcher to find the stock price
         Pattern pattern = Pattern.compile(regex);
-        Pattern changeRegex = Pattern.compile(changePattern);
 
         Matcher matcher = pattern.matcher(this.htmlContents);
-        Matcher changeMatcher = changeRegex.matcher(this.htmlContents);
         BigDecimal result = null;
                 
                 // Check if the pattern is found and extract the price
         if (matcher.find()) {
             String stockPrice = matcher.group(1).substring(0);
             result = new BigDecimal(stockPrice);
-            System.out.println("Close Stock Price: $" + stockPrice);
         } else {
             System.out.println("Stock price not found.");
         }
-        if (changeMatcher.find()) {
-            System.out.println("Price Change: " + changeMatcher.group(1));
-        } else {
-            System.out.println("Price change not found");
-        }
+        
 
         return result;
     }
     
 
-
+    /**
+     * Get the 24hr price change of the stock
+     * Using the regex pattern to extract the price change from the HTML contents
+     * @return price change
+     */
     public BigDecimal getPriceChange() {
        
         // Define the regex pattern to extract the stock price
@@ -109,7 +120,6 @@ public class WebScraper {
       
        if (changeMatcher.find()) {
         String priceChange = changeMatcher.group(1).replace("$","");   
-        System.out.println("Price Change: " + changeMatcher.group(1));
         result = new BigDecimal(priceChange);
        } else {
            System.out.println("Price change not found");
@@ -117,6 +127,109 @@ public class WebScraper {
 
        return result;
    }
+
+   /**
+    * Get the earnings per share of the stock
+    * Using the regex pattern to extract the earnings per share from the HTML contents
+    * @return earnings per share
+    */
+   public BigDecimal getEarningsPerShare(){
+        String regex = "<th>EPS</th><td>(.*?)</td>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(this.htmlContents);
+        BigDecimal result = null;
+        if (matcher.find()) {
+            String earningsPerShare = matcher.group(1).replace("$", "");
+            result = new BigDecimal(earningsPerShare);
+        } else {
+            System.out.println("Earnings Per Share not found.");
+        }
+        return result;
    }
 
+   public BigDecimal getOpenPrice(){
+        String regex = "<th>Open</th><td>(.*?)</td>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(this.htmlContents);
+        BigDecimal result = null;
+        if (matcher.find()) {
+            String openPrice = matcher.group(1).replace("$", "");
+            result = new BigDecimal(openPrice);
+        } else {
+            System.out.println("Open Price not found.");
+        }
+        return result;
+   }
+
+   public Integer getVolumeTraded(){
+        String regex = "<th>Volume</th><td>(.*?)</td>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(this.htmlContents);
+        Integer result = null;
+        if (matcher.find()) {
+            String volumeTraded = matcher.group(1).replace(",", "");
+            result = Integer.parseInt(volumeTraded);
+        } else {
+            System.out.println("Volume Traded not found.");
+        }
+        return result;
+   }
+
+   public BigDecimal getPriceToEquity(){
+        String regex = "<th>P/E</th><td>(.*?)</td>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(this.htmlContents);
+        BigDecimal result = null;
+        if (matcher.find()) {
+            String priceToEquity = matcher.group(1);
+            result = new BigDecimal(priceToEquity);
+        } else {
+            System.out.println("Price to Equity not found.");
+        }
+        return result;
+   }
+
+   public BigDecimal getNetTangibleAssets(){
+        String regex = "<th>NTA</th><td>(.*?)</td>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(this.htmlContents);
+        BigDecimal result = null;
+        if (matcher.find()) {
+            String netTangibleAssets = matcher.group(1).replace("$", "");
+            result = new BigDecimal(netTangibleAssets);
+        } else {
+            System.out.println("Net Tangible Assets not found.");
+        }
+        return result;
+   }
+
+   public BigDecimal getDividendYield(){
+        String regex = "<th>Gross Div Yield</th><td>(.*?)</td>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(this.htmlContents);
+        BigDecimal result = null;
+        if (matcher.find()) {
+            String dividendYield = matcher.group(1).replace("%", "");
+            result = new BigDecimal(dividendYield);
+        } else {
+            System.out.println("Dividend Yield not found.");
+        }
+        return result;
+   }
+
+   public Integer getMarketCap(){
+        String regex = "<th>Capitalisation \\(000s\\)</th><td>\\$(.*?)</td>";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(this.htmlContents);
+        Integer result = null;
+        if (matcher.find()) {
+            String marketCap = matcher.group(1).replace("$", "").replace(",", "");
+            result = Integer.parseInt(marketCap);
+            return result * 1000;
+        } else {
+            System.out.println("Market Cap not found.");
+        }
+        return null;
+   }
+}
 
