@@ -223,13 +223,90 @@ public class WebScraper {
         Matcher matcher = pattern.matcher(this.htmlContents);
         Integer result = null;
         if (matcher.find()) {
-            String marketCap = matcher.group(1).replace("$", "").replace(",", "");
-            result = Integer.parseInt(marketCap);
+            result = Integer.valueOf(matcher.group(1).replace("$", "").replace(",", ""));
             return result * 1000;
         } else {
             System.out.println("Market Cap not found.");
         }
         return null;
    }
+
+   public String getName(){
+    String regex = "<th>Instrument Name</th>\\s*<td><a class=\"Link gVvkzt kDqtJz\"[^>]*>([^<]+)</a></td>";
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(this.htmlContents);
+    String result = null;
+    if (matcher.find()) {
+        result = matcher.group(1).trim(); 
+    } else {
+        System.out.println("Name not found.");
+    }
+    return result;
+}
+
+    public String getISIN(){
+     String regex = "<th>ISIN</th><td>(.*?)</td>";
+     Pattern pattern = Pattern.compile(regex);
+     Matcher matcher = pattern.matcher(this.htmlContents);
+     String result = null;
+     if (matcher.find()) {
+          result = matcher.group(1).trim(); 
+     } else {
+          System.out.println("ISIN not found.");
+     }
+     return result;
+    }
+    
+    public String getType(){
+     String regex = "<th>Type</th>\\s*<td>([^<]+)</td>";
+     Pattern pattern = Pattern.compile(regex);
+     Matcher matcher = pattern.matcher(this.htmlContents);
+     String result = null;
+     if (matcher.find()) {
+          result = matcher.group(1).trim(); 
+     } else {
+          System.out.println("Type not found.");
+     }
+     return result;
+    }
+    
+    public String getSector(){
+     String regex = "<th>Sector</th><td>(.*?)</td>";
+     Pattern pattern = Pattern.compile(regex);
+     Matcher matcher = pattern.matcher(this.htmlContents);
+     String result = null;
+     if (matcher.find()) {
+          result = matcher.group(1).trim(); 
+     } else {
+          System.out.println("Sector not found.");
+     }
+     return result;
+    }
+    
+    public String getIndustry(){
+     String regex = "<th>Industry</th><td>(.*?)</td>";
+     Pattern pattern = Pattern.compile(regex);
+     Matcher matcher = pattern.matcher(this.htmlContents);
+     String result = null;
+     if (matcher.find()) {
+          result = matcher.group(1).trim(); 
+     } else {
+          System.out.println("Industry not found.");
+     }
+     return result;
+    }
+    
+    public String getWebsite(){
+     String regex = "<th>Website</th><td><a href=\"(.*?)\"";
+     Pattern pattern = Pattern.compile(regex);
+     Matcher matcher = pattern.matcher(this.htmlContents);
+     String result = null;
+     if (matcher.find()) {
+          result = matcher.group(1).trim(); 
+     } else {
+          System.out.println("Website not found.");
+     }
+     return result;
+}
 }
 
