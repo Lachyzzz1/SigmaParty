@@ -1,5 +1,8 @@
 package NZXAPI.tools;
 
+import NZXAPI.domain.Instrument;
+import NZXAPI.domain.Stock;
+
 public class Test {
 
     public static void main(String[] args) {
@@ -22,11 +25,16 @@ public class Test {
             "USF", "USG", "USH", "USM", "USS", "USV", "VCT", "VGL", "VHP", "VNT", "VSL",
             "VTL", "WBC", "WCO", "WHS", "WIN"
         };
+        for (String ticker : tickers) {
+            Stock stock = new Stock(ticker);
+            System.out.println(stock);
+        }
+        Stock stockOne = new Stock("AIA");
+        System.out.println(stockOne);
         
-            WebScraper scraper = new WebScraper("https://www.nzx.com/instruments/" + "FNZ");
-            System.out.println( scraper.getStockPrice() + "\n Market Cap: " + scraper.getMarketCap());
+            
         
-        
+            
         //WebScraper scraper = new WebScraper("https://www.nzx.com/instruments/ARV");
         //System.out.println(scraper.getStockPrice());
        // System.out.println(scraper.getOpenPrice());
