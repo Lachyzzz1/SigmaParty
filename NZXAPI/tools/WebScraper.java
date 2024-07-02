@@ -89,8 +89,12 @@ public class WebScraper {
                 
                 // Check if the pattern is found and extract the price
         if (matcher.find()) {
+            try{
             String stockPrice = matcher.group(1).substring(0);
             result = new BigDecimal(stockPrice);
+            } catch (Exception e) {
+                return null;
+            }
         } else {
             System.out.println("Stock price not found.");
         }
@@ -119,8 +123,12 @@ public class WebScraper {
                // Check if the pattern is found and extract the price
       
        if (changeMatcher.find()) {
+        try{
         String priceChange = changeMatcher.group(1).replace("$","");   
         result = new BigDecimal(priceChange);
+        } catch (Exception e) {
+            return null;
+        }
        } else {
            System.out.println("Price change not found");
        }
@@ -139,8 +147,12 @@ public class WebScraper {
         Matcher matcher = pattern.matcher(this.htmlContents);
         BigDecimal result = null;
         if (matcher.find()) {
+            try{
             String earningsPerShare = matcher.group(1).replace("$", "");
             result = new BigDecimal(earningsPerShare);
+            } catch (Exception e) {
+                return null;
+            }
         } else {
             System.out.println("Earnings Per Share not found.");
         }
@@ -153,8 +165,12 @@ public class WebScraper {
         Matcher matcher = pattern.matcher(this.htmlContents);
         BigDecimal result = null;
         if (matcher.find()) {
+            try{
             String openPrice = matcher.group(1).replace("$", "");
             result = new BigDecimal(openPrice);
+            } catch (Exception e) {
+                return null;
+            }
         } else {
             System.out.println("Open Price not found.");
         }
@@ -167,8 +183,12 @@ public class WebScraper {
         Matcher matcher = pattern.matcher(this.htmlContents);
         Integer result = null;
         if (matcher.find()) {
+            try{
             String volumeTraded = matcher.group(1).replace(",", "");
             result = Integer.parseInt(volumeTraded);
+            } catch (Exception e) {
+                return null;
+            }
         } else {
             System.out.println("Volume Traded not found.");
         }
@@ -181,8 +201,12 @@ public class WebScraper {
         Matcher matcher = pattern.matcher(this.htmlContents);
         BigDecimal result = null;
         if (matcher.find()) {
+            try{
             String priceToEquity = matcher.group(1);
             result = new BigDecimal(priceToEquity);
+            } catch (Exception e) {
+                return null;
+            }
         } else {
             System.out.println("Price to Equity not found.");
         }
@@ -195,8 +219,12 @@ public class WebScraper {
         Matcher matcher = pattern.matcher(this.htmlContents);
         BigDecimal result = null;
         if (matcher.find()) {
+            try{
             String netTangibleAssets = matcher.group(1).replace("$", "");
             result = new BigDecimal(netTangibleAssets);
+            } catch (Exception e) {
+                return null;
+            }
         } else {
             System.out.println("Net Tangible Assets not found.");
         }
@@ -209,8 +237,12 @@ public class WebScraper {
         Matcher matcher = pattern.matcher(this.htmlContents);
         BigDecimal result = null;
         if (matcher.find()) {
+            try{
             String dividendYield = matcher.group(1).replace("%", "");
             result = new BigDecimal(dividendYield);
+            } catch (Exception e) {
+                return null;
+            }
         } else {
             System.out.println("Dividend Yield not found.");
         }
@@ -223,8 +255,12 @@ public class WebScraper {
         Matcher matcher = pattern.matcher(this.htmlContents);
         Integer result = null;
         if (matcher.find()) {
+            try{
             result = Integer.valueOf(matcher.group(1).replace("$", "").replace(",", ""));
             return result * 1000;
+            } catch (Exception e) {
+                return null;
+            }
         } else {
             System.out.println("Market Cap not found.");
         }
@@ -237,7 +273,11 @@ public class WebScraper {
     Matcher matcher = pattern.matcher(this.htmlContents);
     String result = null;
     if (matcher.find()) {
+        try{
         result = matcher.group(1).trim(); 
+        } catch (Exception e) {
+            return null;
+        }
     } else {
         System.out.println("Name not found.");
     }
