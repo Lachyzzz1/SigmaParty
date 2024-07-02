@@ -22,7 +22,7 @@ public class Test {
             "RBD", "RTO", "RUA", "RYM", "SAN", "SCL", "SCT", "SDL", "SEK", "SKC", "SKL",
             "SKO", "SKT", "SML", "SPG", "SPK", "SPN", "SPY", "STU", "SUM", "SVR", "TAH",
             "TEM", "TGG", "THL", "TNZ", "TRA", "TRU", "TWF", "TWH", "TWL", "TWR", "USA",
-            "USF", "USG", "USH", "USM", "USS", "USV", "VCT", "VGL", "VHP", "VNT", "VSL",
+            "USF", "USG", "USH", "USM", "USS", "USV", "VCT", "Vgit GL", "VHP", "VNT", "VSL",
             "VTL", "WBC", "WCO", "WHS", "WIN"
         };
         
