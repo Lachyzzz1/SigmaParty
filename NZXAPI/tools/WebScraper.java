@@ -3,6 +3,7 @@ package NZXAPI.tools;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.regex.Matcher;
@@ -249,15 +250,18 @@ public class WebScraper {
         return result;
    }
 
-   public Integer getMarketCap(){
+   public BigInteger getMarketCap(){
         String regex = "<th>Capitalisation \\(000s\\)</th><td>\\$(.*?)</td>";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(this.htmlContents);
-        Integer result = null;
+        BigInteger result = null;
+        long multi = 1000;
+        BigInteger multiplier = BigInteger.valueOf(multi);
         if (matcher.find()) {
             try{
-            result = Integer.valueOf(matcher.group(1).replace("$", "").replace(",", ""));
-            return result * 1000;
+            Integer otherResult = Integer.valueOf(matcher.group(1).replace("$", "").replace(",", ""));
+            result = BigInteger.valueOf(otherResult);
+            return result.multiply(multiplier);
             } catch (Exception e) {
                 return null;
             }

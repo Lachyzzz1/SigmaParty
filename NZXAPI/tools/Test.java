@@ -2,6 +2,8 @@ package NZXAPI.tools;
 
 import NZXAPI.domain.Instrument;
 import NZXAPI.domain.Stock;
+import java.util.TreeMap;
+import java.math.BigDecimal;
 
 public class Test {
 
@@ -22,17 +24,26 @@ public class Test {
             "RBD", "RTO", "RUA", "RYM", "SAN", "SCL", "SCT", "SDL", "SEK", "SKC", "SKL",
             "SKO", "SKT", "SML", "SPG", "SPK", "SPN", "SPY", "STU", "SUM", "SVR", "TAH",
             "TEM", "TGG", "THL", "TNZ", "TRA", "TRU", "TWF", "TWH", "TWL", "TWR", "USA",
-            "USF", "USG", "USH", "USM", "USS", "USV", "VCT", "Vgit GL", "VHP", "VNT", "VSL",
+            "USF", "USG", "USH", "USM", "USS", "USV", "VCT", "VGL", "VHP", "VNT", "VSL",
             "VTL", "WBC", "WCO", "WHS", "WIN"
         };
         
+        // for (String ticker : tickers) {
+        //     Stock stock = new Stock(ticker);
+        //     System.out.println(stock.getPriceChange());
+        // } 
+        TreeMap<BigDecimal, Stock> stockMap = new TreeMap<BigDecimal, Stock>();
         for (String ticker : tickers) {
             Stock stock = new Stock(ticker);
-            System.out.println(stock);
+            try{
+            stockMap.put(stock.getPriceChange(), stock);
+            }catch(Exception e){
+                System.out.println("Error: " + e);
+            }
         }
-        
-            
-        
+        System.out.println(stockMap.get(stockMap.lastKey()));
+        // Stock stock = new Stock("PEB");
+        // System.out.println(stock.getPriceChange());
             
         //WebScraper scraper = new WebScraper("https://www.nzx.com/instruments/ARV");
         //System.out.println(scraper.getStockPrice());
