@@ -1,5 +1,10 @@
 package NZXAPI.tools;
 
+import NZXAPI.domain.Instrument;
+import NZXAPI.domain.Stock;
+import java.util.TreeMap;
+import java.math.BigDecimal;
+
 public class Test {
 
     public static void main(String[] args) {
@@ -10,11 +15,11 @@ public class Test {
             "BRMWH", "BRW", "CBD", "CCC", "CDI", "CEN", "CHI", "CMO", "CNU", "CO2", "CRP",
             "CVT", "DGL", "DIV", "DOW", "EBO", "EMF", "EMG", "ENS", "ERD", "ESG", "EUF",
             "EUG", "FBU", "FCT", "FNZ", "FPH", "FRW", "FSF", "FWL", "GBF", "GEN", "GFI",
-            "GFL", "GGB", "GMT", "GNE", "GPR", "GSH", "GTK", "GXH", "HFL", "HGH", "HLG",
+            "GFL", "GGB", "GMT", "GNE", "GPR", "GTK", "GXH", "HFL", "HGH", "HLG",
             "IFT", "IKE", "INF", "IPL", "IPR", "JPN", "KFL", "KFLWH", "KMD", "KPG", "LIC",
             "LIV", "MCK", "MCKPA", "MCY", "MDZ", "MEE", "MEL", "MFB", "MFT", "MHJ", "MLN",
             "MLNWG", "MMH", "MNW", "MOV", "MPG", "MWE", "MZY", "NGB", "NPF", "NPH", "NTL",
-            "NWF", "NZB", "NZC", "NZG", "NZK", "NZL", "NZLWA", "NZM", "NZO", "NZX", "OCA",
+            "NWF", "NZB", "NZC", "NZG", "NZK", "NZL", "NZLWA", "NZM", "NZX", "OCA",
             "OZY", "PCT", "PEB", "PFI", "PGW", "PHL", "PLP", "POT", "PYS", "RAD", "RAK",
             "RBD", "RTO", "RUA", "RYM", "SAN", "SCL", "SCT", "SDL", "SEK", "SKC", "SKL",
             "SKO", "SKT", "SML", "SPG", "SPK", "SPN", "SPY", "STU", "SUM", "SVR", "TAH",
@@ -23,10 +28,23 @@ public class Test {
             "VTL", "WBC", "WCO", "WHS", "WIN"
         };
         
-            WebScraper scraper = new WebScraper("https://www.nzx.com/instruments/" + "FNZ");
-            System.out.println( scraper.getStockPrice() + "\n Market Cap: " + scraper.getMarketCap());
-        
-        
+        // for (String ticker : tickers) {
+        //     Stock stock = new Stock(ticker);
+        //     System.out.println(stock.getPriceChange());
+        // } 
+        TreeMap<BigDecimal, Stock> stockMap = new TreeMap<BigDecimal, Stock>();
+        for (String ticker : tickers) {
+            Stock stock = new Stock(ticker);
+            try{
+            stockMap.put(stock.getPriceChange(), stock);
+            }catch(Exception e){
+                System.out.println("Error: " + e);
+            }
+        }
+        System.out.println(stockMap.get(stockMap.lastKey()));
+        // Stock stock = new Stock("PEB");
+        // System.out.println(stock.getPriceChange());
+            
         //WebScraper scraper = new WebScraper("https://www.nzx.com/instruments/ARV");
         //System.out.println(scraper.getStockPrice());
        // System.out.println(scraper.getOpenPrice());
